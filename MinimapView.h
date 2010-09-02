@@ -1,50 +1,66 @@
 //
-//	MinimapView.h
-//	TextmateMinimap
+//  MinimapView.h
+//  TextmateMinimap
 //
-//	Created by Julian Eberius on 09.02.10.
-//	Copyright 2010 Julian Eberius. All rights reserved.
+//  Created by Julian Eberius on 09.02.10.
+//  Copyright 2010 Julian Eberius. All rights reserved.
 //
+// Documentation in the .m file
 
 #import <Cocoa/Cocoa.h>
+@class BackgroundUpdater;
 
 extern int const scaleDownThreshold;
 extern int const scaleDownTo;
-extern int const scaleUpThreshold;
-extern int const scaleUpTo;
 
 @interface MinimapView : NSView {
+  NSWindowController* windowController;
+  NSView* textView;
+  NSImage* theImage;
+  NSOperationQueue* queue;
+  NSTimer* timer;
+  NSTimer* firstDrawTimer;
+  //NSLock* drawLock;
+  BackgroundUpdater* updater;
 
-	NSWindowController* windowController;
-
-	NSView* textView;
-	NSRange viewableRange;
-	NSImage* nextImage;
-	NSOperationQueue* queue;
-	
-	Boolean refreshAll;
-	float pixelPerLine;
-	float viewableRangeScale;
-	int minimapLinesStart;
-	int gutterSize;
+  NSRange viewableRange;
+  NSRect visiblePartOfTextView;
+  NSRect drawnRect;
+  Boolean requestRedraw;
+  Boolean minimapIsScrollable;
+  Boolean firstDraw;
+  Boolean dirty;
+  float pixelPerLine;
+  float viewableRangeScaling;
+  float visRectPosBeforeScrolling;
+  float lastScrollPosition;
+  int minimapLinesStart;
+  int gutterSize;
 }
 #pragma mark public-properties
-@property(retain) NSWindowController* windowController;
+@property float viewableRangeScaling;
+@property int minimapLinesStart;
+@property Boolean dirty;
+@property(assign) NSWindowController* windowController;
 @property(readonly) int gutterSize;
-@property(readonly) NSView* textView;
+@property(readonly) NSRect visiblePartOfTextView;
+@property(readonly, assign) NSView* textView;
+@property(readonly, retain) NSImage* theImage;
+//@property(readonly, retain) NSLock* drawLock;
+@property(retain) NSTimer* timer;
 
 #pragma mark init
 - (id)initWithTextView:(NSView*) textView;
 
 #pragma mark public-api
-- (void)refreshDisplay;
-- (void)refreshViewableRange;
-- (void)updateGutterSize;
-
-#pragma mark drawOperation-api
+- (void)refresh;
+- (void)repaint;
+- (void)reactToScrollingTextView;
+- (int)gutterSize;
+- (void)setNewDocument;
+- (int)numberOfLines;
 - (void)asyncDrawFinished:(NSImage*) bitmap;
-- (void)setViewableRangeScaling:(float)scale;
-- (void)setMinimapLinesStart:(int)start;
-- (int)getNumberOfLines;
 
+#pragma mark private-methods
+- (void)updateGutterSize;
 @end

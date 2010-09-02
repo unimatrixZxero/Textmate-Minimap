@@ -14,11 +14,19 @@
 	<string>TextmateMinimap</string>
 	<key>CFBundlePackageType</key>
 	<string>BNDL</string>
-	<key>CFBundleSignature</key>
-	<string>????</string>
+	<key>CFBundleShortVersionString</key>
+	<string>0.7</string>
 	<key>CFBundleVersion</key>
-	<string>0.5</string>
+	<string>0.70</string>
 	<key>NSPrincipalClass</key>
 	<string>TextmateMinimap</string>
+	<key>SUEnableSystemProfiling</key>
+	<string>false</string>
+	<key>SUFeedURL</key>
+	<string>http://julianeberius.github.com/Textmate-Minimap/appcast.xml</string>
+	<key>SUPublicDSAKeyFile</key>
+	<string>dsa_pub.pem</string>
+	<key>SUScheduledCheckInterval</key>
+	<string>86400</string>
 </dict>
 </plist>
